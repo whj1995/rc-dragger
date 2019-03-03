@@ -19,7 +19,6 @@
       "dom"
     ],
     "types": [
-      "reflect-metadata",
       "react",
       "react-dom"
     ],
