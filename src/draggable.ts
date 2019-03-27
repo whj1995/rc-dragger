@@ -5,6 +5,7 @@ interface IProps extends React.Props<any> {
   initPs?: [number, number];
   handle?: string;
   adapter?: IDapter;
+  onMove?: (ps: [number, number]) => void;
 }
 
 export function Draggable(props: IProps) {
@@ -33,6 +34,14 @@ export function Draggable(props: IProps) {
   React.useEffect(() => {
     props.adapter && dragger.current.setAdpter(props.adapter);
   }), [props.adapter];
+
+  React.useEffect(() => {
+    if (!props.onMove) {
+      return;
+    }
+    dragger.current.subscribeMove(props.onMove);
+    return () => dragger.current.unSubscribeMove(props.onMove);
+  }), [props.onMove];
 
   React.useEffect(() => {
     return () => dragger.current.unDrag();

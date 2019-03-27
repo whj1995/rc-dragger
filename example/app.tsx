@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { Draggable } from '../lib';
+import { Draggable } from '../src';
 
 function adapter(ps: [number, number], lastPs: [number, number]): [number, number] {
   return [ps[0], lastPs[1]];
@@ -16,7 +16,7 @@ export function App() {
       <Draggable adapter={adapter}>
         <div style={{ background: 'orange', width: 100, height: 100 }}>x</div>
       </Draggable>
-      <Draggable initPs={[100, 100]}>
+      <Draggable initPs={[100, 100]} >
         <div style={{ background: 'red', width: 100, height: 100 }}></div>
       </Draggable>
       <Draggable handle={handle}>

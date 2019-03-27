@@ -11,6 +11,7 @@ export class Dragger {
     this.dom && (this.dom.style.transform = `translate(${ps[0]}px,${ps[1]}px)`);
   }
 
+  private moveListener: Array<(ps: [number, number]) => void> = [];
   private mousePs = [-1, -1]; // [x,y]
   private dom: HTMLElement | undefined;
   private handle: HTMLElement | undefined;
@@ -48,6 +49,21 @@ export class Dragger {
     this.handle.addEventListener('mousedown', this.handleMousedown);
   }
 
+  public subscribeMove(listener: (ps: [number, number]) => void) {
+    this.moveListener.push(listener);
+  }
+
+  public unSubscribeMove(listener?: (ps: [number, number]) => void) {
+    if (!listener) {
+      this.moveListener = [];
+    } else {
+      const idx = this.moveListener.findIndex((item) => item === listener);
+      if (idx > -1) {
+        this.moveListener.splice(idx, 1);
+      }
+    }
+  }
+
   private adapter: IDapter = (ps: [number, number]) => ps;
 
   private handleMousedown(e: MouseEvent) {
@@ -71,5 +87,8 @@ export class Dragger {
     const offset = [e.clientX - this.mousePs[0], e.clientY - this.mousePs[1]];
     this.mousePs = [e.clientX, e.clientY];
     this.Ps = this.adapter([this.Ps[0] + offset[0], this.Ps[1] + offset[1]], [this.Ps[0], this.Ps[1]]);
+    this.moveListener.forEach((listener) => {
+      listener(this.Ps);
+    });
   }
 }
