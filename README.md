@@ -36,3 +36,4 @@ import { Draggable } from 'rc-dragger';
 | initPs | 初始位置　|　[number, number] | [ 300, 200 ]
 | handle | 把手的选择器　| string | .handle
 | adapter | 修改最终位置函数 | (curPs: [number, number], lastPs: [number, number]) => [number, number] | 
+| onMove | 移动时回调 | (ps:[number, number]) => void | 
